@@ -1,0 +1,5 @@
+/dev/ttys005
+/dev/ttys006
+/dev/ttys007
+/dev/ttys008
+/dev/ttys009

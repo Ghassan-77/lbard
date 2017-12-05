@@ -899,7 +899,7 @@ int main(int argc,char **argv)
   srandom(time(0));
 
   char *r=radio_types;
-  
+    
   for(int i=0;i<radio_count;i++) {
     char radio_type[1024];
     int rt_len=0;
@@ -918,7 +918,7 @@ int main(int argc,char **argv)
     unlockpt(fd);
     fcntl(fd,F_SETFL,fcntl(fd, F_GETFL, NULL)|O_NONBLOCK);
     fprintf(tty_file,"%s\n",ptsname(fd));
-    printf("Radio #%d is available at %s\n",client_count,ptsname(fd));
+    printf("Radio #%d is available at %s which is %s \n",client_count,ptsname(fd),radio_type);
     int radio_type_id=-1;
     if (!strcasecmp(radio_type,"rfd900")) radio_type_id=RADIO_RFD900;
     if (!strcasecmp(radio_type,"hfcodan")) radio_type_id=RADIO_HFCODAN;

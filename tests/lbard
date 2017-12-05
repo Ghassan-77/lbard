@@ -1326,4 +1326,5 @@ test_PacketRate200() {
 }
 
 
+echo "Starting the tests/lbars program"
 runTests "$@"
