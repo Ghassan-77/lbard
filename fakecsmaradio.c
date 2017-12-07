@@ -5,6 +5,7 @@
 
 #include "fakecsmaradio.h"
 
+
 int filter_verbose=1;
 
 int packet_drop_threshold=0;
@@ -936,20 +937,31 @@ int main(int argc,char **argv)
   // look for new clients, and for traffic from each client.
   while(1) {
     int activity=0;
-      
+    int Codan_ret,versionHi=4, versionLo=2;
+
     for(int i=0;i<client_count;i++)
       // Release any queued packet once we pass the embargo time
       activity+=release_pending_packets(i);
     
     // Read input from each client.  This may cause packet transmission.
-    for(int i=0;i<client_count;i++) {
+    for(int i=0; i<client_count; i++) {
       unsigned char buffer[8192];
+
       int count = read(clients[i].socket,buffer,8192);
       if (count>0) {
+	dump_bytes(0,"Bytes from LBARD to fakecsmaradio",buffer,count);
 	for(int j=0;j<count;j++) {
 	  switch(clients[i].radio_type) {
 	  case RADIO_RFD900: rfd900_read_byte(i,buffer[j]); break;
-	  case RADIO_HFCODAN: hfcodan_read_byte(i,buffer[j]); break;
+	  case RADIO_HFCODAN: Codan_ret= hfcodan_read_byte(i,buffer[j]);
+                             if (Codan_ret ==1)
+                                { char buffer2[8192];
+                                   printf("its VER \n");
+                                  memset(buffer2, 0, sizeof buffer2);
+                                  snprintf(buffer2,sizeof buffer2,"VER\r\nCICS: V%d.%d\r\n",versionHi,versionLo);
+                                  write(clients[i].socket, buffer2, sizeof buffer2);
+                                }  
+                             break;
 	  case RADIO_HFBARRETT: break;
 	  }
 	  activity++;
