@@ -937,7 +937,6 @@ int main(int argc,char **argv)
   // look for new clients, and for traffic from each client.
   while(1) {
     int activity=0;
-    int Codan_ret,versionHi=4, versionLo=2;
 
     for(int i=0;i<client_count;i++)
       // Release any queued packet once we pass the embargo time
@@ -953,14 +952,7 @@ int main(int argc,char **argv)
 	for(int j=0;j<count;j++) {
 	  switch(clients[i].radio_type) {
 	  case RADIO_RFD900: rfd900_read_byte(i,buffer[j]); break;
-	  case RADIO_HFCODAN: Codan_ret= hfcodan_read_byte(i,buffer[j]);
-                             if (Codan_ret ==1)
-                                { char buffer2[8192];
-                                   printf("its VER \n");
-                                  memset(buffer2, 0, sizeof buffer2);
-                                  snprintf(buffer2,sizeof buffer2,"VER\r\nCICS: V%d.%d\r\n",versionHi,versionLo);
-                                  write(clients[i].socket, buffer2, sizeof buffer2);
-                                }  
+	  case RADIO_HFCODAN: hfcodan_read_byte(i,buffer[j]);                              
                              break;
 	  case RADIO_HFBARRETT: break;
 	  }
