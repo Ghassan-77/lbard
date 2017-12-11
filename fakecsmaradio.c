@@ -948,13 +948,13 @@ int main(int argc,char **argv)
 
       int count = read(clients[i].socket,buffer,8192);
       if (count>0) {
-	dump_bytes(0,"Bytes from LBARD to fakecsmaradio",buffer,count);
+	//dump_bytes(0,"Bytes from LBARD to fakecsmaradio",buffer,count);
 	for(int j=0;j<count;j++) {
 	  switch(clients[i].radio_type) {
 	  case RADIO_RFD900: rfd900_read_byte(i,buffer[j]); break;
 	  case RADIO_HFCODAN: hfcodan_read_byte(i,buffer[j]);                              
                              break;
-	  case RADIO_HFBARRETT: break;
+	  case RADIO_HFBARRETT:hfbarrett_read_byte(i,buffer[j]); break;
 	  }
 	  activity++;
 	}

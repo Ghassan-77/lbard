@@ -193,6 +193,7 @@ int serial_setup_port(int fd)
   sleep(1); // give the radio the chance to respond
   count = read_nonblock(fd,buf,8192);  // read reply
   dump_bytes("modem response",buf,count);
+
   // If we get a version string -> Codan HF
  
   if (sscanf((char *)buf,"VER\r\nCICS: V%d.%d",&verhi,&verlo)==2) {
