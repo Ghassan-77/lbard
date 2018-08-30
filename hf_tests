@@ -1,0 +1,10 @@
+#!/bin/csh -fx
+setenv LBARD_REAL_RADIOS /dev/ttyUSB0,/dev/ttyUSB1,hfbarrett,hfbarrett 
+
+foreach n ( 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 )
+  echo "Running test $n"
+  tests/lbard -f 9
+  cp serval-dna/testlog/lbard/9.OneOneHF.*/log.txt test${n}.log
+  echo "$n" `cat test${n}.log | egrep "^Started|^Finished" | cut -f2- -d:`
+
+end

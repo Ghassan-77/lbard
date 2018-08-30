@@ -23,7 +23,7 @@ source "${0%/*}/../testdefs.sh"
 
 lbard_console() {
    local C="$instance_name"
-   executeOk --core-backtrace --timeout=600 --executable="lbard"  --stdout-file="${C}_LBARDOUT" --stderr-file="${C}_LBARDERR" $*
+   executeOk --core-backtrace --timeout=1200 --executable="lbard"  --stdout-file="${C}_LBARDOUT" --stderr-file="${C}_LBARDERR" $*
    tfw_cat --stdout --stderr
 }
 
@@ -91,9 +91,9 @@ setup() {
    
    # Start four lbard daemons.
    set_instance +A
-   fork_lbard_console "$addr_localhost:$PORTA" lbard:lbard "$SIDA" "$IDA" "$tty1" announce pull $lbardflags
+   fork_lbard_console "$addr_localhost:$PORTA" lbard:lbard "$SIDA" "$IDA" "$tty1" pieces announce pull $lbardflags
    set_instance +B
-   fork_lbard_console "$addr_localhost:$PORTB" lbard:lbard "$SIDB" "$IDB" "$tty2" pull $lbardflags
+   fork_lbard_console "$addr_localhost:$PORTB" lbard:lbard "$SIDB" "$IDB" "$tty2" pieces announce pull $lbardflags
    set_instance +C
    fork_lbard_console "$addr_localhost:$PORTC" lbard:lbard "$SIDC" "$IDC" "$tty3" pull $lbardflags
    set_instance +D
@@ -614,7 +614,7 @@ test_OuternetUplink5() {
 
 
 
-doc_OneOneHF="A single very small bundle transfers to a single peer via HF (timeout=10 minutes)"
+doc_OneOneHF="A single very small bundle transfers to a single peer via HF (timeout=20 minutes)"
 setup_OneOneHF() {
    setup_DetectBarrettHF
    # Insert a file to server A
@@ -626,7 +626,7 @@ test_OneOneHF() {
    all_bundles_received() {
       bundle_received_by $BID:$VERSION +B 
    }
-   wait_until --timeout=600 all_bundles_received
+   wait_until --timeout=1200 all_bundles_received
 }
 
 doc_OneOne="A single very small bundle transfers to a single peer"
